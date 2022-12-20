@@ -12,7 +12,7 @@ public class SimpleSearchEngine {
     long totalIndexingTime = 0;
     long totalSearchTime = 0;
     long averageSearchTime = 0;
-    long minSearchTime = 999999999,maxSearchTime = 0;
+    long minSearchTime,maxSearchTime;
 
     int[] fileWordLengths;
 
@@ -250,6 +250,8 @@ public class SimpleSearchEngine {
 
 
     public void readSearchWords() {
+        minSearchTime = 999999999;
+        maxSearchTime = 0;
         long fileLength = 0;
         try {
             File fileName = new File("files\\search.txt");
@@ -257,18 +259,19 @@ public class SimpleSearchEngine {
             String input;
             while (scanner.hasNextLine()) {
                 input = scanner.nextLine();
-                long startTime = System.nanoTime();
-                hashedDictionary.contains(input);
-                long endTime = System.nanoTime();
+                long startTime = System.nanoTime(); // start time
+                hashedDictionary.contains(input); // call the searching function
+                long endTime = System.nanoTime(); // end time
                 long timeDiff = endTime - startTime;
                 totalSearchTime += timeDiff;
-                fileLength++;
+                fileLength++; // increase file word length
+                // check max and min index time
                 if (timeDiff < maxSearchTime)
                     minSearchTime = timeDiff;
                 if (timeDiff > maxSearchTime)
                     maxSearchTime = timeDiff;
             }
-            averageSearchTime = totalSearchTime/fileLength;
+            averageSearchTime = totalSearchTime/fileLength; // calculate average search time
         }
         catch (FileNotFoundException s){
             System.out.println("File not found!");
